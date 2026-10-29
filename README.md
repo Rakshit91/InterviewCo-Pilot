@@ -2,6 +2,8 @@
 
 AI-assisted real-time interview co-pilot for Google Meet. This repository contains the **Chrome Extension (Manifest V3)** and the **Node.js/Express backend server**.
 
+> 📚 **Complete Project Documentation**: For an in-depth breakdown of architecture, Gemini Live speech-to-text, audio downsampling pipelines, structured resume parsing, streaming follow-up questions, and security specifications, see [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md).
+
 ---
 
 ## 📁 Repository Structure
@@ -15,6 +17,9 @@ InterviewCo-Pilot/
 │   ├── content/
 │   │   ├── content.js         # Content script injected into Google Meet
 │   │   └── content.css        # Injected sidebar styles
+│   ├── offscreen/             # Manifest V3 Offscreen audio processing
+│   │   ├── offscreen.html     # Offscreen audio host document
+│   │   └── offscreen.js       # 16kHz PCM downsampler & WebSocket client
 │   ├── popup/
 │   │   ├── popup.html         # Extension action popup UI
 │   │   ├── popup.css          # Popup styling
@@ -24,9 +29,16 @@ InterviewCo-Pilot/
 │   ├── .env                   # Local environment variables (not committed)
 │   ├── .env.example           # Environment template
 │   ├── package.json           # Backend dependencies and scripts
-│   └── server.js              # Express app & /health endpoint
+│   ├── server.js              # Express app, WebSocket proxy & health endpoints
+│   ├── data/                  # SQLite storage directory
+│   │   └── interview_copilot.db # Persistent SQLite database (WAL mode)
+│   └── src/
+│       ├── db/                # SQLite database setup & table migrations
+│       ├── services/          # Gemini Live, Gemini Structured, PDF & Suggestion services
+│       └── store/             # SQLite interview store, debrief & export logic
 ├── .gitignore
-└── README.md
+├── README.md
+└── PROJECT_DOCUMENTATION.md   # In-depth architectural & feature documentation
 ```
 
 ---
